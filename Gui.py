@@ -1,11 +1,5 @@
-from PyQt5.QtWidgets import QApplication, QLabel
-
-app = QApplication([])
-
-label = QLabel('Hello World!')
-
-label.show()
-
-#test
-
-#vfdsfsdffv
+import sys
+import PyQt5.QtCore impory pyqtSlot
+from PyQt5.uic import LoadUi
+from PyQt5.QtWidgets import QApplication, QDialog
+#Fdsfsd
