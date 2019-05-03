@@ -1,13 +1,12 @@
-from PyQt5.QtWidgets import QApplication, QLabel
+from PyQt5 import QtWidgets, uic
 
-app = QApplication([])
+import sys
 
-label = QLabel('Hello World!')
+app = QtWidgets.QApplication([])
 
-label.show()
+win = uic.loadUi("GuiTest.ui")  # specify the location of your .ui file
+z
+win.show()
 
-#test
+sys.exit(app.exec())
 
-#vfdsfsdffv
-
-jyuhunihjn
