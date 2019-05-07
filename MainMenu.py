@@ -3,37 +3,30 @@ import self as self
 from PyQt5.QtWidgets import QApplication,QDialog,QLabel
 from PyQt5.QtGui import QIcon, QPixmap
 from PyQt5.uic import loadUi
-from PyQt5 import QtWidgets
-from MainMenu import widget
 
 
-class Login(QDialog):
-
+class MainMenu(QDialog):
+   # def openWindow:
+   #     self.window = QApplication.QMain
     def __init__(self):
-        super(Login, self).__init__()
-        loadUi('Login.ui',self)
+        super(MainMenu, self).__init__()
+        loadUi('MainMenu.ui',self)
         self.setWindowTitle('Stock Market Prediction')
-        self.SignIn.clicked.connect(self.SignIn_clicked)
-        self.SignUp.clicked.connect(self.SignUp_clicked)
+        #self.SignIn.clicked.connect(self.SignIn_clicked)
+        #self.SignUp.clicked.connect(self.SignUp_clicked)
         label = QLabel(self)
         pixmap = QPixmap('logo1.JPG')
+        #pixmap.scaled(111, 91)
         label.setGeometry(310,50, 160, 160)
         label.setPixmap(pixmap)
 
-
-    def openWindow(self):
-        print('test')
-        self.window = QtWidgets.QDialog()
-        self.ui = widget()
-        self.ui.setupUi(self.window)
-        self.window.show()
 
 
     def SignIn_clicked(self):
         UserName = self.UserName.text()
         Password = self.Password.text()
         print(UserName + ' ' + Password)
-        self.openWindow(self)
+
 
     def SignUp_clicked(self):
         self.Password.setText('bla')
@@ -41,8 +34,7 @@ class Login(QDialog):
         print(t)
 
 
-
 app=QApplication(sys.argv)
-widget=Login()
+widget=MainMenu()
 widget.show()
 sys.exit(app.exec_())
