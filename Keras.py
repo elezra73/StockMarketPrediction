@@ -15,8 +15,62 @@ import copy
 
 plt.ion()
 
+# detect if they are a gpu for trainig mode , if not cuda moving the traning part to the cpu.
+
 use_gpu = torch.cuda.is_available()
 if use_gpu:
     print("Using CUDA")
 
+full_path = os.path.realpath(__file__)
+path, filename = os.path.split(full_path)
+data_dir = os.path.join(path, 'Apple Stock Daily - 1.1.2012 ~ 2.4.2019', 'Moving Average Mapping')
+TRAIN = 'train'
+VAL = 'val'
+TEST = 'test'
 
+# VGG-16 Takes 224x224 images as input, so we resize all of them
+data_transforms = {
+    TRAIN: transforms.Compose([
+        # Data augmentation is a good practice for the train set
+        # Here, we randomly crop the image to 224x224 and
+        # randomly flip it horizontally.
+        transforms.RandomResizedCrop(224),
+        transforms.RandomHorizontalFlip(),
+        transforms.ToTensor(),
+    ]),
+    VAL: transforms.Compose([
+        transforms.Resize(256),
+        transforms.CenterCrop(224),
+        transforms.ToTensor(),
+    ]),
+    TEST: transforms.Compose([
+        transforms.Resize(256),
+        transforms.CenterCrop(224),
+        transforms.ToTensor(),
+    ])
+}
+
+image_datasets = {
+    x: datasets.ImageFolder(
+        os.path.join(data_dir, x),
+        transform=data_transforms[x]
+    )
+    for x in [TRAIN, VAL, TEST]
+}
+
+dataloaders = {
+    x: torch.utils.data.DataLoader(
+        image_datasets[x], batch_size=8,
+        shuffle=True, num_workers=4
+    )
+    for x in [TRAIN, VAL, TEST]
+}
+
+dataset_sizes = {x: len(image_datasets[x]) for x in [TRAIN, VAL, TEST]}
+
+for x in [TRAIN, VAL, TEST]:
+    print("Loaded {} images under {}".format(dataset_sizes[x], x))
+
+print("Classes: ")
+class_names = image_datasets[TRAIN].classes
+print(image_datasets[TRAIN].classes)
