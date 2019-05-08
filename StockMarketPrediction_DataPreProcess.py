@@ -23,7 +23,6 @@ def Create_Deployment(FolderName):
     full_path = os.path.realpath(__file__)
     path, filename = os.path.split(full_path)
     path = os.path.join(path, FolderName)
-    # path = path + '\\' + FolderName
     return path
 
 
@@ -53,7 +52,6 @@ def CreateDataWithLinearInterpolation(CsvFilePath, PeriodOfTime, Deployment_Path
         plt.plot(j, i)
         plt.axis('off')
         plt.savefig(os.path.join(Deployment_Path, j[0] + ' ~ ' + j[PeriodOfTime - 1]))
-        # plt.savefig(Deployment_Path + '\\' + j[0] + ' ~ ' + j[PeriodOfTime - 1])
         plt.close()
 
     # Close.plot(legend=None)
@@ -100,12 +98,10 @@ def CreateDataWithMovingAverageMapping(CsvFilePath, PeriodOfTime, Deployment_Pat
         if Moves > 0:
             print('Up')
             plt.savefig(os.path.join(Deployment_Path, 'Up', j[0] + ' ~ ' + j[PeriodOfTime - 1] + '.jpg'))  # Up
-            # plt.savefig(Deployment_Path + '\\Up\\' + j[0] + ' ~ ' + j[PeriodOfTime - 1] + '.jpg')      #Up
         else:
             print('Down')
             plt.savefig(os.path.join(Deployment_Path, 'Down', j[0] + ' ~ ' + j[PeriodOfTime - 1] + '.jpg'))  # Down
-            # plt.savefig(Deployment_Path + '\\Down\\' + j[0] + ' ~ ' + j[PeriodOfTime - 1] + '.jpg')     #Down
-        # plt.savefig(Deployment_Path + '\\' + j[0] + ' ~ ' + j[PeriodOfTime - 1] + '.jpg')
+
         plt.close()
 
 
@@ -135,7 +131,6 @@ def CreateDataWithDoubleMovingAverageMapping(CsvFilePath, PeriodOfTime, Deployme
         rolling_mean = pd.DataFrame(i).rolling(window=5).mean()  # TODO fix chunk of mean calculation every 5 pices
         print(rolling_mean)
         plt.plot(j, rolling_mean)
-        # plt.savefig(Deployment_Path + '\\' + j[0] + ' ~ ' + j[PeriodOfTime - 1])
         plt.savefig(os.path.join(Deployment_Path, j[0], ' ~ ' + j[PeriodOfTime - 1]))
         plt.close()
 
@@ -170,6 +165,6 @@ def Main(CsvFileName, Method, PeriodOfTime):
 
 
 Main("Apple Stock Daily - 1.1.2012 ~ 2.4.2019.csv", 'MAM', 10)
-# Main("Elbit Stock Daily - 1.1.2012 _ 2.4.2019.csv", 'MAM',10)
-# Main("Intel Stock Daily - 1.1.2012 _ 2.4.2019.csv", 'MAM',10)
+Main("Elbit Stock Daily - 1.1.2012 _ 2.4.2019.csv", 'MAM',10)
+Main("Intel Stock Daily - 1.1.2012 _ 2.4.2019.csv", 'MAM',10)
 # Main("Apple Stock Daily - 1.1.2012 ~ 2.4.2019.csv", 'Linear Interpolation',10)      #TODO get this value as input from user
