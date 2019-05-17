@@ -68,6 +68,7 @@ def UserSelectPredict(Stock,Model,DateFrom,DateTo):
         #plt.savefig(os.path.join(Deployment_Path, j[0] + ' ~ ' + j[PeriodOfTime - 1]))
         plt.show()
         return(plt)
+    #
 
 
 
