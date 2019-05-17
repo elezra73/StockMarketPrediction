@@ -13,6 +13,9 @@ import time
 import os
 import copy
 
+
+torch.multiprocessing.freeze_support()
+
 plt.ion()
 
 # detect if they are a gpu for trainig mode , if not cuda moving the traning part to the cpu.
@@ -63,7 +66,7 @@ image_datasets = {
 dataloaders = {
     x: torch.utils.data.DataLoader(
         image_datasets[x], batch_size=8,
-        shuffle=True, num_workers=4
+        shuffle=True, num_workers=0
     )
     for x in [TRAIN, VAL, TEST]
 }
@@ -77,6 +80,9 @@ print("Classes: ")
 class_names = image_datasets[TRAIN].classes
 print(image_datasets[TRAIN].classes)
 
+
+#if __name__ == '__main__':
+#    torch.multiprocessing.freeze_support()
 
 # Some utility function to visualize the dataset and the model's predictions
 
@@ -95,6 +101,9 @@ def show_databatch(inputs, classes):
     imshow(out, title=[class_names[x] for x in classes])
 
 
+
+torch.multiprocessing.freeze_support()
+
 # Get a batch of training data
 inputs, classes = next(iter(dataloaders[TRAIN]))
 show_databatch(inputs, classes)
@@ -110,6 +119,8 @@ def visualize_model(vgg, num_images=6):
     images_so_far = 0
 
     for i, data in enumerate(dataloaders[TEST]):
+        #if __name__ == '__main__':
+            #main()
         inputs, labels = data
         size = inputs.size()[0]
 

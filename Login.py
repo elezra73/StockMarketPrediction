@@ -8,7 +8,7 @@ from MainMenu import widget
 
 
 class Login(QDialog):
-
+    print('tqwe')
     def __init__(self):
         super(Login, self).__init__()
         loadUi('Login.ui',self)
@@ -19,6 +19,7 @@ class Login(QDialog):
         pixmap = QPixmap('logo1.JPG')
         label.setGeometry(310,50, 160, 160)
         label.setPixmap(pixmap)
+        print('test')
 
 
     def openWindow(self):
@@ -33,7 +34,7 @@ class Login(QDialog):
         UserName = self.UserName.text()
         Password = self.Password.text()
         print(UserName + ' ' + Password)
-        self.openWindow(self)
+       # self.openWindow(self)
 
     def SignUp_clicked(self):
         self.Password.setText('bla')

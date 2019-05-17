@@ -186,30 +186,41 @@ def CreateDataWithGramianAngularField(CsvFilePath, PeriodOfTime, GAF_Path):
     Open_Tuples = tuple(Open_List[i: i + PeriodOfTime] for i in range(0, len(Open), PeriodOfTime - 1))
     Close_Tuples = tuple(Close_List[i: i + PeriodOfTime] for i in range(0, len(Close), PeriodOfTime - 1))
     Date_Tuples = tuple(Data_List[i: i + PeriodOfTime] for i in range(0, len(Date), PeriodOfTime - 1))
+    NormelizedData = []
+
+
+
+
     for i, j, k in zip(Close_Tuples, Date_Tuples, Open_Tuples):
-        try:
-            plt.figure(j[0] + ' ~ ' + j[PeriodOfTime - 1])  # Naming the deployment picture
-        except IndexError:
-            break
 
-    cnt +=1
-    print(GAF_Path)
-    # Parameters
-    n_samples, n_timestamps = 100, 144
+        for x in range(PeriodOfTime):
+            try:
+                min = np.min(i)
+                max = np.max(i)
+                min_s = np.min(k)
+                max_s = np.max(k)
+                t = ((i[x] - max) + (i[x] - min)) / (max - min)
+                s = ((k[x] - max_s) + (k[x] - min_s)) / (max_s - min_s)
+                listT = []
+                listT.append(t)
+                #NormelizedData.append((t,j[x]))
+                NormelizedData.append(listT)
 
-    # Toy dataset
-    rng = np.random.RandomState(41)
-    X = rng.randn(n_samples, n_timestamps)
+            except IndexError:
+                continue
+        print(NormelizedData)
 
-    # Transform the time series into Gramian Angular Fields
-    gasf = GramianAngularField(image_size=24, method='summation')
-    X_gasf = gasf.fit_transform(Open_Tuples)
-    gadf = GramianAngularField(image_size=24, method='difference')
-    X_gadf = gadf.fit_transform(Open_Tuples)
 
-    # Show the images for the first time series
-    fig = plt.figure(figsize=(12, 7))
-    grid = ImageGrid(fig, 111,
+        gasf = GramianAngularField( method='summation')
+        X_gasf = gasf.fit_transform(NormelizedData, y=PeriodOfTime)
+        gadf = GramianAngularField(method='difference')
+        X_gadf = gadf.fit_transform(NormelizedData)
+        cnt += 1
+
+
+        # Show the images for the first time series
+        fig = plt.figure(figsize=(12, 7))
+        grid = ImageGrid(fig, 111,
                      nrows_ncols=(1, 2),
                      axes_pad=0.15,
                      share_all=True,
@@ -218,19 +229,15 @@ def CreateDataWithGramianAngularField(CsvFilePath, PeriodOfTime, GAF_Path):
                      cbar_size="7%",
                      cbar_pad=0.3,
                      )
-    images = [X_gasf[0], X_gadf[0]]
-    titles = ['Gramian Angular Summation Field',
+        images = [X_gasf[0] , X_gadf[0]]
+        titles = ['Gramian Angular Summation Field',
               'Gramian Angular Difference Field']
-    for image, title, ax in zip(images, titles, grid):
-        im = ax.imshow(image, cmap='rainbow', origin='lower')
-        ax.set_title(title)
-    ax.cax.colorbar(im)
-    ax.cax.toggle_label(True)
-    plt.show()
-    if cnt == 5:
-        return
-
-
+        for image, title, ax in zip(images, titles, grid):
+            im = ax.imshow(image, cmap='rainbow', origin='lower')
+            ax.set_title(title)
+        ax.cax.colorbar(im)
+        ax.cax.toggle_label(True)
+        plt.show()
 
     return
 
@@ -270,6 +277,6 @@ def Main(CsvFileName, Method, PeriodOfTime):
 #Main("Apple Stock Daily - 1.1.2012 ~ 2.4.2019.csv", 'MAM', 10)
 #Main("Elbit Stock Daily - 1.1.2012 _ 2.4.2019.csv", 'MAM',10)
 #Main("Elbit Stock Daily - 1.1.2012 _ 2.4.2019.csv", 'DMAM',10)
-Main("Elbit Stock Daily - 1.1.2012 _ 2.4.2019.csv", 'GAF',10)
+Main("Intel Stock Daily - 1.1.2012 _ 2.4.2019.csv", 'GAF',10)
 #Main("Intel Stock Daily - 1.1.2012 _ 2.4.2019.csv", 'MAM',10)
 # Main("Apple Stock Daily - 1.1.2012 ~ 2.4.2019.csv", 'Linear Interpolation',10)      #TODO get this value as input from user

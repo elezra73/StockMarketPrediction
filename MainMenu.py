@@ -10,15 +10,16 @@ class MainMenu(QDialog):
    #     self.window = QApplication.QMain
     def __init__(self):
         super(MainMenu, self).__init__()
-        loadUi('MainMenu.ui',self)
+        loadUi('Login.ui',self)
         self.setWindowTitle('Stock Market Prediction')
-        #self.SignIn.clicked.connect(self.SignIn_clicked)
-        #self.SignUp.clicked.connect(self.SignUp_clicked)
+        self.SignIn.clicked.connect(self.SignIn_clicked)
+        self.SignUp.clicked.connect(self.SignUp_clicked)
         label = QLabel(self)
         pixmap = QPixmap('logo1.JPG')
         #pixmap.scaled(111, 91)
         label.setGeometry(310,50, 160, 160)
         label.setPixmap(pixmap)
+        print('t')
 
 
 
