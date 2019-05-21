@@ -4,11 +4,12 @@ from matplotlib import pyplot as plt
 
 
 def ParseStringToDate(String):
-    return datetime(int('20' + String[6::1]), int(String[3:5:1]), int(String[0:2:1]))
+    return datetime(int(String[:4:1]), int(String[5:7:1]), int(String[8:10:1]))
 
 def ParseDateToString(Date):
+    print(Date)
     s = Date.strftime("%Y-%m-%d %H:%M:%S")
-    return s[8:10:1] + '-' + s[5:7:1] + '-' + s[2:4:1]
+    return s[0:4:1] + '-' + s[5:7:1] + '-' + s[8:10:1]
 
 def GetTradingDates(Date_List,DateFrom,DateTo):
 
@@ -39,7 +40,6 @@ def UserSelectPredict(Stock, Model, StartDateForPrediction, EndDateForPrediction
 
     FirstDateFromCsvFile = Date_List[0]
     LastDateFromCsvFile = Date_List[-1]
-
 
     StartDate = ParseStringToDate(StartDateForPrediction)
     EndDate = ParseStringToDate(EndDateForPrediction)
@@ -80,8 +80,9 @@ def UserSelectPredict(Stock, Model, StartDateForPrediction, EndDateForPrediction
         return plt      #after create the Figure, send it to the server
 
 '''Call UserSelectPredict function '''
-UserSelectPredict(Stock='Apple Stock Daily - 1.1.2012 ~ 2.4.2019.csv', Model=0, StartDateForPrediction='09-05-12', EndDateForPrediction='20-05-12')
+#UserSelectPredict(Stock='Apple Stock Daily - 1.1.2012 ~ 2.4.2019.csv', Model=0, StartDateForPrediction='09-05-12', EndDateForPrediction='20-05-12')
 
+UserSelectPredict(Stock='AAPL.csv', Model=0, StartDateForPrediction='2019-05-07', EndDateForPrediction='2019-05-19')
 
 #def AdminSelectTraining
 
